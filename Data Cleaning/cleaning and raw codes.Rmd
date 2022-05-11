@@ -1,0 +1,74 @@
+---
+title: "department similarity"
+author: "Xinyi Shen"
+date: "2/21/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r,message=F}
+library(dplyr)
+unique(parsed$sr_dept_name) %>% length()
+unique(parsed$sr_dept_cd)
+table(parsed$sr_dept_cd)
+unique(parsed$sr_div_name) %>% length()
+# going to compute the similarity between different departments (142 total)
+```
+
+```{r}
+library(tm)
+# basic cleaning of crs_long_ttl:
+parsed$crs_clean_title <- parsed$crs_long_ttl %>% as.character() %>% tolower()
+parsed$crs_clean_title <- removePunctuation(parsed$crs_clean_title)
+parsed$crs_clean_title <- stripWhitespace(parsed$crs_clean_title)
+
+
+# pasting all course titles under the same department
+departments <- unique(parsed$sr_dept_cd) %>% as.vector() %>%  as.character()
+fields_study <- rep("NA", length(departments))
+dpt_descrip <- cbind(departments, fields_study) %>% as.data.frame()
+dpt_descrip$num <- 1:nrow(dpt_descrip)
+dpt_descrip$departments <- as.character(dpt_descrip$departments)
+dpt_descrip$fields_study <- as.character(dpt_descrip$fields_study)
+str(dpt_descrip)
+
+for(i in dpt_descrip$num){
+  matched <- filter(parsed, parsed$sr_dept_cd == dpt_descrip$departments[i])
+  matched$crs_clean_title <- as.character(matched$crs_clean_title)
+  
+  dpt_descrip$fields_study[i] <- paste0(matched$crs_clean_title, collapse = " ")
+}
+
+dpt_descrip$fields_study <- removeWords(dpt_descrip$fields_study, stopwords("english")) %>% stripWhitespace()
+
+save(dpt_descrip, file = "dpt_descrip.RData")
+```
+
+### Orion look from here! 
+```{r}
+head(dpt_descrip)
+str(dpt_descrip)
+# create placeholder for similarity scores 
+# the layout will be similar to co-variance matrix
+mat_sim <- diag(nrow(dpt_descrip)) # the similarity to itself will be 1
+colnames(mat_sim) <- dpt_descrip$departments
+# start calculating text similarity
+
+##----------- should be python codes (do package loading before this chunk!)
+for(i in dpt_descrip$num){
+  ref <- dpt_descrip$fields_study[i]
+  checks <- dpt_descrip$fields_study
+  
+  for(j in 1:nrow(mat_sim)){
+    doc1 = nlp(ref)
+    doc2 = nlp(checks[j])
+    mat_sim[j,i] = doc1.similarity(doc2)
+  }
+}
+##----------- python codes ends ------- 
+## output the calculated similarity matrix and check for errors.
+## thanks so much !! :)
+```
