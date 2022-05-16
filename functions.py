@@ -134,37 +134,45 @@ course_find_similar("POL SCI 251", class_type= "laboratory", dept=True, hrs = Tr
 
 ### Function 2
 def phrase_find_similar(phrase):
-    # Function input phrase (NO filters)
-    # Outputs top ten courses most similar to phrase (subject area code, catalog number, similarity sore) in form of list
-
-    #tokenize input phrase and remove stop words
-    phrases = []
-    for token in gensim.utils.simple_preprocess(phrase):
-        if token not in gensim.parsing.preprocessing.STOPWORDS:
-            phrases.append(token)
-    bigram_doc = bigram[phrases]
-
-    #find most similar courses
-    similar = model.dv.most_similar(positive=[model.infer_vector(bigram_doc)], topn=len(parsed))
-    rank = []
-    scores = []
-    for i in range(len(parsed) - 1):
-        rank.append(similar[i][0])
-        scores.append(similar[i][1])
-
-    # create new df where rows are re-ordered according to similarity, re index after
-    ranked_parsed = parsed.reindex(rank)
-    ranked_parsed["Similarity Score"] = scores
-    ranked_parsed = ranked_parsed.reset_index(drop=True)
-
-    # create final output list of top ten courses
-    sim_courses = []
-    for i in range(10):
-        sim_courses.append(ranked_parsed.loc[i, "subj_cat"])
-        #+ "; Similarity Score: " +
-                    #str(ranked_parsed.loc[i, "Similarity Score"]) 
+  
+    # # Function input phrase (NO filters)
+    # # Outputs top ten courses most similar to phrase (subject area code, catalog number, similarity sore) in form of list
+    # 
+    # #tokenize input phrase and remove stop words
+    # phrases = []
+    # for token in gensim.utils.simple_preprocess(phrase):
+    #     if token not in gensim.parsing.preprocessing.STOPWORDS:
+    #         phrases.append(token)
+    # bigram_doc = bigram[phrases]
+    # 
+    # #find most similar courses
+    # similar = model.dv.most_similar(positive=[model.infer_vector(bigram_doc)], topn=len(parsed))
+    # rank = []
+    # scores = []
+    # for i in range(len(parsed) - 1):
+    #     rank.append(similar[i][0])
+    #     scores.append(similar[i][1])
+    # 
+    # # create new df where rows are re-ordered according to similarity, re index after
+    # ranked_parsed = parsed.reindex(rank)
+    # ranked_parsed["Similarity Score"] = scores
+    # ranked_parsed = ranked_parsed.reset_index(drop=True)
+    # 
+    # # create final output list of top ten courses
+    # sim_courses = []
+    # for i in range(10):
+    #     sim_courses.append(ranked_parsed.loc[i, "subj_cat"])
+    #     #+ "; Similarity Score: " +
+    #                 #str(ranked_parsed.loc[i, "Similarity Score"])
+    
+    
+    phrase = phrase + " "
+    descriptions = parsed_coursenum['clean']
+    boolean_findings = descriptions.str.contains(phrase, flags = re.IGNORECASE)
+    sim_courses = parsed_coursenum[boolean_findings]['course_num'].tolist()
+    
+    
                           
-
     return sim_courses
 
 # test case

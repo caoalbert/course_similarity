@@ -13,6 +13,7 @@ library(mapproj)
 library(dplyr)
 library(shinyWidgets)
 library(reticulate)
+library(shinycssloaders)
 
 pd <- import("pandas")
 np <- import("numpy")
@@ -46,7 +47,7 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
         sidebarPanel(
           p(h4("FILTERS")),
           helpText("Note: Sorted by Similarity"),
-          p(h5("Use Course Name Find Similar")),
+          p(h5("Use Course Name To Find Similar Courses")),
 
           textInput("number",
                       label = "Course Name",
@@ -83,14 +84,14 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
           actionButton("update2", "Start",style="color:#FFFF ; 
                            background-color:  #2774AE; border-color:  #2774AE"),
               
-             plotOutput(outputId = "main_plot", height = "300px"),
+             # plotOutput(outputId = "main_plot", height = "300px")
               
               # Display this only if the density is shown
-              conditionalPanel(condition = "input.density == true",
-                               sliderInput(inputId = "bw_adjust",
-                                           label = "Bandwidth adjustment:",
-                                           min = 0.2, max = 2, value = 1, step = 0.2)
-              )
+              # conditionalPanel(condition = "input.density == true", 
+              #                  sliderInput(inputId = "bw_adjust",
+              #                              label = "Bandwidth adjustment:",
+              #                              min = 0.2, max = 2, value = 1, step = 0.2)
+              # )
               
           )
         
@@ -145,13 +146,22 @@ server <- function(input, output) {
     input$phrase
   })
   
+
   similar_course_data2 <- reactiveVal()
   observe({
     similar2 = phrase_find_similar(input$phrase)
-    newcoursedata2 = data.frame()
-    for (i in 1:length(similar2)){
-      similarcourse = courseData[which(courseData["course_num"]==similar2[i]),]
-      newcoursedata2 = rbind(newcoursedata2,similarcourse)
+    if (length(similar2) == 0) {
+      newcoursedata2 = data.frame(matrix(ncol = 7, nrow = 0))
+      x <- c("course_num", "subj_area_cd", "crs_career_lvl_cd", "crs_act_typ_cd", "crs_grd_typ_cd", "hours", "impacted_crs_fl")
+      colnames(newcoursedata2) <- x
+    }
+
+    else {
+      newcoursedata2 = data.frame()
+      for (i in 1:length(similar2)){
+        similarcourse = courseData[which(courseData["course_num"]==similar2[i]),]
+        newcoursedata2 = rbind(newcoursedata2,similarcourse)
+      }
     }
     similar_course_data2(newcoursedata2)
   })
