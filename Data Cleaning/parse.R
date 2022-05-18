@@ -138,3 +138,19 @@ ct$course_num <- course_num
 
 ############################################ save #######################################
 write_csv(ct, "parsed.csv")
+
+prereq <- read_excel("Raw Data/requisites data.xlsx")
+parsedprereq[,c(1,2,7,8)]
+
+parsed_prereq<- prereq %>% 
+  mutate(crs_catlg_no = str_remove(crs_catlg_no, "^0+"),
+         rqs_crs_catlg_no = str_remove(rqs_crs_catlg_no, "^0+")) %>%
+  mutate(course = paste(subj_area_cd, crs_catlg_no, ""),
+         req = paste(rqs_subj_area_cd,rqs_crs_catlg_no,"")) %>%
+  select(course, req)
+
+write_csv(parsed_prereq, "parsed_prereq.csv")
+
+
+
+
