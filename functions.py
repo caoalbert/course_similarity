@@ -18,6 +18,7 @@ parsed["subj_cat"] = parsed_coursenum["course_num"]
 
 # import department similarity matrix, add column that specifies which department each is compared to vertically
 dep = pd.read_csv("dep.csv")
+prereq = pd.read_csv("parsed_prereq.csv")
 uniq_dep = []
 for i in range(len(dep)):
     uniq_dep.append(dep.columns[i])
@@ -31,7 +32,7 @@ bigram = Phraser(phrases)
 
 ### Function 1
 
-def course_find_similar(subj_cat, class_type = None, hrs = False, dept = False, career_lvl = None, impacted = "False", num_show = 10):
+def course_find_similar(subj_cat, prereq_cat = None, class_type = None, hrs = False, dept = False, career_lvl = None, impacted = "False", num_show = 10):
     # Function inputs a subject area code and catalog number, and optional filters
     # Outputs top (10, or less if length after filters is less than 10) courses and catalog number, along with similarity scores in form of list
 
@@ -63,6 +64,8 @@ def course_find_similar(subj_cat, class_type = None, hrs = False, dept = False, 
     ranked_parsed = parsed.reindex(rank)
     ranked_parsed["Similarity Score"] = scores
     ranked_parsed = ranked_parsed.reset_index(drop = True)
+    
+    
 
     # filter class type
     if class_type is not None:

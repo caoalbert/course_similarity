@@ -52,6 +52,8 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
           textInput("number",
                       label = "Course Name",
                       value = ""),
+          textInput("prereq", "Requisite",
+                    value = ""),
               
               selectInput(inputId = "type",
                           label = "Type of Class",
@@ -132,7 +134,7 @@ server <- function(input, output) {
   })
   similar_course_data <- reactiveVal()
   observe({
-    similar = course_find_similar(input$number,input$type,input$Hours,input$Department,input$level,input$Impacted)
+    similar = course_find_similar(input$number,input$prereq,input$type,input$Hours,input$Department,input$level,input$Impacted)
 
     newcoursedata = data.frame()
     for (i in 1:length(similar)){
