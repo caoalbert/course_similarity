@@ -10,7 +10,7 @@ import Levenshtein as lev
 
 
 # import preprocessed data set, add column with collapsed subject area and course number
-parsed = pd.read_csv("parsed.csv")
+parsed = pd.read_csv("parsed_revisedv2.csv")
 parsed_coursenum = pd.read_csv("parsed_coursenum.csv")
 parsed_coursenum = parsed_coursenum[~parsed_coursenum["extra_clean"].isnull()]
 parsed_coursenum = parsed_coursenum.reset_index(drop= True)
@@ -18,7 +18,7 @@ parsed["subj_cat"] = parsed_coursenum["course_num"]
 
 # import department similarity matrix, add column that specifies which department each is compared to vertically
 dep = pd.read_csv("dep.csv")
-prereq = pd.read_csv("parsed_prereq.csv")
+#prereq = pd.read_csv("parsed_prereq.csv")
 uniq_dep = []
 for i in range(len(dep)):
     uniq_dep.append(dep.columns[i])
@@ -32,7 +32,7 @@ bigram = Phraser(phrases)
 
 ### Function 1
 
-def course_find_similar(subj_cat, prereq_cat = None, class_type = None, hrs = False, dept = False, career_lvl = None, impacted = "False", num_show = 10):
+def course_find_similar(subj_cat, prereq = None, class_type = None, hrs = False, dept = False, career_lvl = None, impacted = "False", num_show = 10):
     # Function inputs a subject area code and catalog number, and optional filters
     # Outputs top (10, or less if length after filters is less than 10) courses and catalog number, along with similarity scores in form of list
 
@@ -70,6 +70,13 @@ def course_find_similar(subj_cat, prereq_cat = None, class_type = None, hrs = Fa
     # filter class type
     if class_type is not None:
         ranked_parsed = ranked_parsed[ranked_parsed[class_type] == 1]
+        
+    # filter by prereq
+    if prereq is not None:
+        test = ranked_parsed[ranked_parsed['pre_req'].str.contains(prereq, na=False)]
+        if not test.empty:
+            ranked_parsed = ranked_parsed[ranked_parsed['pre_req'].str.contains(prereq, na=False)]
+
 
     # filter hours
     if hrs == True:
@@ -95,6 +102,7 @@ def course_find_similar(subj_cat, prereq_cat = None, class_type = None, hrs = Fa
 
     # create final output list of top ten courses (or all top course if less than ten) after filtering
     sim_courses = []
+  
 
     # reorder according to similarity if specified
     if dept == True:

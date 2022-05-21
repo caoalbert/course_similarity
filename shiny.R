@@ -23,6 +23,9 @@ Doc2Vec <- gensim$models$doc2vec$Doc2Vec
 Phrases <- gensim$models$phrases$Phrases
 Phraser <- gensim$models$phrases$Phraser
 lev <- import("Levenshtein")
+# prereqs_file<-read.delim('pre_reqs.txt')
+# 
+# prereqs_courses <- as.vector(unlist(t(as.matrix(prereqs_file))))
 
 # use python source code
 source_python("functions.py")
@@ -52,9 +55,15 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
           textInput("number",
                       label = "Course Name",
                       value = ""),
-          textInput("prereq", "Requisite",
+          
+          textInput("prereq",
+                    label = "Pre-Requisite",
                     value = ""),
-              
+          
+              # selectInput(inputId = "prereq",
+              #         label = "Pre Requisite",
+              #         choices = prereqs_courses),
+          
               selectInput(inputId = "type",
                           label = "Type of Class",
                           choices = c("lecture","discussion","laboratory","seminar","research","tutorial",
@@ -63,6 +72,8 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
               selectInput(inputId = "level",
                           label = "Level of Class",
                           choices = c("Undergraduate", "Graduate","Law")),
+          
+              
               
               checkboxInput(inputId = "Impacted",
                            label = strong("Show non-impacted courses only"),
@@ -79,7 +90,9 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
                            background-color:  #2774AE; border-color:  #2774AE"
                            ),
           br(),
-          p(h5("Use Course Descrption Phrase Find Similar")),
+          # p(h5("Use Course Descrption Phrase Find Similar")),
+          p(h5(" ")),
+          p(h5(" ")),
           textInput("phrase",
                     label = "Course Description",
                     value = ""),
