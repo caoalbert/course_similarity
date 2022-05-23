@@ -9,3 +9,15 @@
 ### 4. Find a way to evaluate search performance
 ### 5. Find out why the current search algorithm gives inconsistent results
 
+## Meeting on 5/23
+### 1. Combine the two functions into one (one start button, one table output)
+### 2. 3 selections for course description
+### 3. Dropdown for pre-req class
+### 4. Level and type of classes to checkboxes
+### 5. Selecting time interval
+### 6. Evaluation of the current search algorithm
+### 7. Embedd a youtube video for instruction
+### 8. [Visualizations](https://stack.dailybruin.com/2017/04/23/department-similarity/)
+
+## Background
+### 1. [Course Recommendation](https://ieeexplore.ieee.org/document/8088011?figureId=fig5#fig5)
