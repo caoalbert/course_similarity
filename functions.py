@@ -32,7 +32,7 @@ bigram = Phraser(phrases)
 
 ### Function 1
 
-def course_find_similar(subj_cat, prereq = None, class_type = None, hrs = False, dept = False, career_lvl = None, impacted = "False", num_show = 10):
+def course_find_similar(subj_cat, prereq = None, prereq2 = None, prereq3 = None, class_type = None, hrs = False, dept = False, career_lvl = None, impacted = "False", num_show = 10):
     # Function inputs a subject area code and catalog number, and optional filters
     # Outputs top (10, or less if length after filters is less than 10) courses and catalog number, along with similarity scores in form of list
 
@@ -73,9 +73,24 @@ def course_find_similar(subj_cat, prereq = None, class_type = None, hrs = False,
         
     # filter by prereq
     if prereq is not None:
+       
+    
+        if prereq2 is not None and prereq3 is None:
+          #prereq = "&".join([prereq, prereq2])
+          prereq = "(?=.*" + prereq + ")(?=.*" + prereq2 +")"
+        elif prereq2 is not None and prereq3 is not None:
+          #prereq = "&".join([prereq, prereq2, prereq3])
+          prereq = "(?=.*" + prereq + ")(?=.*" + prereq2 +")" + "(?=.*" + prereq3 +")"
+        
+        
+        
+          
+        
         test = ranked_parsed[ranked_parsed['pre_req'].str.contains(prereq, na=False)]
         if not test.empty:
             ranked_parsed = ranked_parsed[ranked_parsed['pre_req'].str.contains(prereq, na=False)]
+            
+
 
 
     # filter hours
@@ -134,8 +149,8 @@ def course_find_similar(subj_cat, prereq = None, class_type = None, hrs = False,
     return sim_courses
 
 # test case using only num_show filter (all gives same results)
-course_find_similar("POL SCI 251", num_show = 5)
-course_find_similar("POLITICAL SCIENCE 251", num_show = 5)
+course_find_similar("POL SCI 251", prereq = "STATS 100A", prereq2 = "STATS 102A", prereq3 = "STATS 100C", num_show = 5)
+course_find_similar("POL SCI 251", prereq = "STATS 100A", num_show = 5)
 course_find_similar("POLT SCI 251", num_show = 5)
 
 # test cases using different filters

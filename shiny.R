@@ -59,6 +59,12 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
           textInput("prereq",
                     label = "Pre-Requisite",
                     value = ""),
+          textInput("prereq2",
+                    label = "",
+                    value = ""),
+          textInput("prereq3",
+                    label = "",
+                    value = ""),
           
               # selectInput(inputId = "prereq",
               #         label = "Pre Requisite",
@@ -109,7 +115,7 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
               # )
               
           )
-        
+  
 
         ,
         
@@ -147,7 +153,7 @@ server <- function(input, output) {
   })
   similar_course_data <- reactiveVal()
   observe({
-    similar = course_find_similar(input$number,input$prereq,input$type,input$Hours,input$Department,input$level,input$Impacted)
+    similar = course_find_similar(input$number,input$prereq, input$prereq2, input$prereq3, input$type,input$Hours,input$Department,input$level,input$Impacted)
 
     newcoursedata = data.frame()
     for (i in 1:length(similar)){
@@ -188,7 +194,7 @@ server <- function(input, output) {
                                                     'Class Level' = 'crs_career_lvl_cd','Class Type' = 'crs_act_typ_cd',
                                                     'Grade Type' = "crs_grd_typ_cd",
                                                     'Hours' = 'hours','Impacted' = 'impacted_crs_fl'), 
-                  options = list(lengthMenu = c(3, 5, 10), pageLength = 3))
+                  options = list(lengthMenu = c(3, 5, 10), pageLength = 10))
   })
   
   output$mytable2 <- DT::renderDataTable({
@@ -197,7 +203,7 @@ server <- function(input, output) {
                                'Class Level' = 'crs_career_lvl_cd','Class Type' = 'crs_act_typ_cd',
                                'Grade Type' = "crs_grd_typ_cd",
                                'Hours' = 'hours','Impacted' = 'impacted_crs_fl'), 
-                  options = list(lengthMenu = c(3, 5, 10), pageLength = 3))
+                  options = list(lengthMenu = c(3, 5, 10), pageLength = 10))
   })
   
 
