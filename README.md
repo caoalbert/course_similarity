@@ -17,7 +17,7 @@ d) Incorporate a function to search based on fulfilling certain major requiremen
 
 ### 1. Combine the two functions into one (one start button, one table output)
 
-### 2. 3 selections for course description &#9989;
+### 2. 3 selections for pre-req filter &#9989;
 
 ### 3. Dropdown for pre-req class
 
