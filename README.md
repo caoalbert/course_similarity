@@ -31,7 +31,7 @@ d) Incorporate a function to search based on fulfilling certain major requiremen
 
 ### 8. [Visualizations](https://stack.dailybruin.com/2017/04/23/department-similarity/)
 
-### 9. Update to phrase_find_similar
+### 9. Update phrase_find_similar
 
 ## Background
 
