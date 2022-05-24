@@ -15,6 +15,8 @@ d) Incorporate a function to search based on fulfilling certain major requiremen
 
 ## Meeting on 5/23
 
+[division sheet](https://docs.google.com/spreadsheets/d/1vzHcyOv2tSic3bjIEvpc66dA_qqefVIqt7mDH3EKP0k/edit#gid=0)
+
 ### 1. Combine the two functions into one (one start button, one table output)
 
 ### 2. 3 selections for pre-req filter &#9989;
