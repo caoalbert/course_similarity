@@ -33,6 +33,17 @@ source_python("functions.py")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
+
+  tags$head(tags$style(HTML("
+                                 .multicol { 
+                                   height: 150px;
+                                   -webkit-column-count: 2; /* Chrome, Safari, Opera */ 
+                                   -moz-column-count: 2;    /* Firefox */ 
+                                   column-count: 2; 
+                                   -moz-column-fill: auto;
+                                   -column-fill: auto;
+                                 } 
+                                 "))), 
   
  setBackgroundColor(
    color = c("#eeeeee") ),
@@ -52,56 +63,49 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
           helpText("Note: Sorted by Similarity"),
           p(h5("Use Course Name To Find Similar Courses")),
 
-          textInput("number",
-                      label = "Course Name",
-                      value = ""),
+          textInput("number", label = "Course Name", value = ""),
           
-          textInput("prereq",
-                    label = "Pre-Requisite",
-                    value = ""),
-          textInput("prereq2",
-                    label = "",
-                    value = ""),
-          textInput("prereq3",
-                    label = "",
-                    value = ""),
+          textInput("prereq", label = "Pre-Requisite", value = ""),
+          div(style = "margin-top:-27.5px"),
+          textInput("prereq2", label = "", value = ""),
+          div(style = "margin-top:-27.5px"),
+          textInput("prereq3", label = "", value = ""),
           
               # selectInput(inputId = "prereq",
               #         label = "Pre Requisite",
               #         choices = prereqs_courses),
           
-              
-              checkboxGroupInput(
-                "boxtyp",
-                "Class Type",
-                c("lecture","discussion","laboratory","seminar","research","tutorial",
-                  "studio","field","clinic","activity","recitation")),
+          tags$div(align = "left", class = "multicol",
+                   checkboxGroupInput(inputId = "boxtyp", label = "Class Type", 
+                                      choices = c("lecture","discussion","laboratory","seminar","research","tutorial",
+                                                  "studio","field","clinic","activity","recitation"))),
           
-              selectInput(inputId = "level",
-                          label = "Level of Class",
-                          choices = c("Undergraduate", "Graduate","Law")),
+          selectInput(inputId = "level", label = "Level of Class", 
+                      choices = c("Undergraduate", "Graduate","Law")),
               
-              checkboxInput(inputId = "Impacted",
-                           label = strong("Show non-impacted courses only"),
-                          value = FALSE),
+          checkboxInput(inputId = "Impacted", 
+                        label = strong("Show non-impacted courses only"), 
+                        value = FALSE),
               
-              checkboxInput(inputId = "Hours",
-                           label = strong("Show courses with same hours"),
-                           value = FALSE ),
+          checkboxInput(inputId = "Hours", 
+                        label = strong("Show courses with same hours"), 
+                        value = FALSE ),
+          
           checkboxInput(inputId = "Department",
                         label = strong("Order by Department Similarity"),
-                         value = FALSE),
+                        value = FALSE),
               
-              actionButton("update", "Start",style="color:#FFFF ; 
-                           background-color:  #2774AE; border-color:  #2774AE"
-                           ),
+          actionButton("update", "Start", 
+                       style="color:#FFFF ; background-color:  #2774AE; border-color:  #2774AE"),
           br(),
           # p(h5("Use Course Descrption Phrase Find Similar")),
           p(h5(" ")),
           p(h5(" ")),
+          
           textInput("phrase",
                     label = "Course Description",
                     value = ""),
+          
           actionButton("update2", "Start",style="color:#FFFF ; 
                            background-color:  #2774AE; border-color:  #2774AE"),
               
@@ -113,32 +117,28 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
               #                              label = "Bandwidth adjustment:",
               #                              min = 0.2, max = 2, value = 1, step = 0.2)
               # )
-              
-          )
-  
-
-        ,
+          ),
         
         mainPanel(
           tabsetPanel(
             id = 'dataset',
             tabPanel("Use Course Number Find Similar", DT::dataTableOutput("mytable"),icon = icon("book")),
          
-  tabPanel("Use Course Descrption Phrase Find Similar", DT::dataTableOutput("mytable2"),icon = icon("book")),
-  tabPanel("Help",icon = icon("question-circle"),
-           h3("Course Not Found"),
-           p( "If you’re unable to find a course on the website, please check the complete information of all classes 
-      at UCLA:",tags$a(href = "https://registrar.ucla.edu/academics/course-descriptions",
+            tabPanel("Use Course Descrption Phrase Find Similar", DT::dataTableOutput("mytable2"),icon = icon("book")),
+            tabPanel("Help",icon = icon("question-circle"),
+            h3("Course Not Found"),
+            p( "If you’re unable to find a course on the website, please check the complete information of all classes 
+               at UCLA:",tags$a(href = "https://registrar.ucla.edu/academics/course-descriptions",
                        "https://registrar.ucla.edu/academics/course-descriptions")),
-           br(),
-           h4("Contact Us"),
-           p("Phone: (310)862-9183"),
-           p("Email: feedbackStats141XP@gmail.com"),
-           br(),
-           p( h4("More Information about the Website"),tags$a(href = "https://drive.google.com/drive/folders/1UC9zEDsMvI-tS81ynulciJrDxmL306r0?usp=sharing",
+            br(),
+            h4("Contact Us"),
+            p("Phone: (310)862-9183"),
+            p("Email: feedbackStats141XP@gmail.com"),
+            br(),
+            p( h4("More Information about the Website"),tags$a(href = "https://drive.google.com/drive/folders/1UC9zEDsMvI-tS81ynulciJrDxmL306r0?usp=sharing",
                                                               "https://drive.google.com/drive/folders/1UC9zEDsMvI-tS81ynulciJrDxmL306r0?usp=sharing")),
-           tags$a(href = "https://github.com/HQH0325/STATS141XP",
-                  "https://github.com/HQH0325/STATS141XP")))
+               tags$a(href = "https://github.com/caoalbert/course_similarity",
+                  "https://github.com/caoalbert/course_similarity")))
 
         )
     )
