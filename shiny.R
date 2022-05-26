@@ -70,16 +70,16 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
               #         label = "Pre Requisite",
               #         choices = prereqs_courses),
           
-              selectInput(inputId = "type",
-                          label = "Type of Class",
-                          choices = c("lecture","discussion","laboratory","seminar","research","tutorial",
-                                      "studio","field","clinic","activity","recitation")),
               
+              checkboxGroupInput(
+                "boxtyp",
+                "Class Type",
+                c("lecture","discussion","laboratory","seminar","research","tutorial",
+                  "studio","field","clinic","activity","recitation")),
+          
               selectInput(inputId = "level",
                           label = "Level of Class",
                           choices = c("Undergraduate", "Graduate","Law")),
-          
-              
               
               checkboxInput(inputId = "Impacted",
                            label = strong("Show non-impacted courses only"),
@@ -143,7 +143,7 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
         )
     )
 )
-
+ 
 
 
 # Define server logic required to draw a histogram
@@ -153,7 +153,13 @@ server <- function(input, output) {
   })
   similar_course_data <- reactiveVal()
   observe({
-    similar = course_find_similar(input$number,input$prereq, input$prereq2, input$prereq3, input$type,input$Hours,input$Department,input$level,input$Impacted)
+    
+    typ = r_to_py(input$boxtyp)
+    
+    
+    
+    
+    similar = course_find_similar(input$number,input$prereq, input$prereq2, input$prereq3, typ, input$Hours,input$Department,input$level,input$Impacted)
 
     newcoursedata = data.frame()
     for (i in 1:length(similar)){
@@ -167,7 +173,8 @@ server <- function(input, output) {
     input$phrase
   })
   
-
+  
+  
   similar_course_data2 <- reactiveVal()
   observe({
     similar2 = phrase_find_similar(input$phrase)

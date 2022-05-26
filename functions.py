@@ -69,7 +69,15 @@ def course_find_similar(subj_cat, prereq = None, prereq2 = None, prereq3 = None,
 
     # filter class type
     if class_type is not None:
+    
+      if isinstance(class_type, str):
+        
         ranked_parsed = ranked_parsed[ranked_parsed[class_type] == 1]
+      
+      elif len(class_type) > 1:
+        class_type = list(class_type)
+        temp = ranked_parsed[class_type].sum(axis = 1)
+        ranked_parsed = ranked_parsed[temp>=1]
         
     # filter by prereq
     if prereq is not None:
@@ -153,10 +161,12 @@ course_find_similar("POL SCI 251", prereq = "STATS 100A", prereq2 = "STATS 102A"
 course_find_similar("POL SCI 251", prereq = "STATS 100A", num_show = 5)
 course_find_similar("POLT SCI 251", num_show = 5)
 
+course_find_similar("POLT SCI 251", class_type= ["lecture", "discussion"], num_show = 5)
+
 # test cases using different filters
-course_find_similar("POL SCI 251", class_type = "lecture", hrs = True)
-course_find_similar("POL SCI 251", dept=True, class_type= "lecture")
-course_find_similar("POL SCI 251", class_type= "laboratory", dept=True, hrs = True, career_lvl= "Graduate", impacted = "False", num_show=36)
+course_find_similar("POL SCI 251",  hrs = True)
+course_find_similar("POL SCI 251", dept=True)
+course_find_similar("POL SCI 251",  dept=True, hrs = True, career_lvl= "Graduate", impacted = "False", num_show=36)
 
 ### Function 2
 def phrase_find_similar(phrase):
