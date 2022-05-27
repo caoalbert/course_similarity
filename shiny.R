@@ -80,8 +80,8 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
                                       choices = c("lecture","discussion","laboratory","seminar","research","tutorial",
                                                   "studio","field","clinic","activity","recitation"))),
           
-          selectInput(inputId = "level", label = "Level of Class", 
-                      choices = c("Undergraduate", "Graduate","Law")),
+          checkboxGroupInput(inputId = "leveltyp", label = "Level of Class",
+                             choices = c("Undergraduate", "Graduate")),
               
           checkboxInput(inputId = "Impacted", 
                         label = strong("Show non-impacted courses only"), 
@@ -153,13 +153,15 @@ server <- function(input, output) {
   })
   similar_course_data <- reactiveVal()
   observe({
-    
+    a = input$leveltyp
+    print(a)
     typ = r_to_py(input$boxtyp)
+    career_level = r_to_py(input$leveltyp)
     
     
     
     
-    similar = course_find_similar(input$number,input$prereq, input$prereq2, input$prereq3, typ, input$Hours,input$Department,input$level,input$Impacted)
+    similar = course_find_similar(input$number,input$prereq, input$prereq2, input$prereq3, typ, input$Hours,input$Department,career_level,input$Impacted)
 
     newcoursedata = data.frame()
     for (i in 1:length(similar)){

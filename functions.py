@@ -90,17 +90,10 @@ def course_find_similar(subj_cat, prereq = None, prereq2 = None, prereq3 = None,
           #prereq = "&".join([prereq, prereq2, prereq3])
           prereq = "(?=.*" + prereq + ")(?=.*" + prereq2 +")" + "(?=.*" + prereq3 +")"
         
-        
-        
-          
-        
         test = ranked_parsed[ranked_parsed['pre_req'].str.contains(prereq, na=False)]
         if not test.empty:
             ranked_parsed = ranked_parsed[ranked_parsed['pre_req'].str.contains(prereq, na=False)]
             
-
-
-
     # filter hours
     if hrs == True:
         course_hrs = parsed.loc[id, "hours"]
@@ -114,7 +107,13 @@ def course_find_similar(subj_cat, prereq = None, prereq2 = None, prereq3 = None,
                "Law" : "L",
                "Medicine" : "M",
                "Dentist": "D"}
-        ranked_parsed = ranked_parsed[ranked_parsed["crs_career_lvl_cd"] == career_dic[career_lvl]]
+        if isinstance(career_lvl, str):
+          ranked_parsed = ranked_parsed[ranked_parsed["crs_career_lvl_cd"] == career_dic[career_lvl]]
+        elif len(career_lvl) > 1:
+          newlist = []
+          for i in career_lvl:
+            newlist.append(career_dic[i])
+          ranked_parsed = ranked_parsed[ranked_parsed["crs_career_lvl_cd"].isin(newlist)]
 
     # filter out impacted courses
     if impacted == True:
@@ -166,7 +165,7 @@ course_find_similar("POLT SCI 251", class_type= ["lecture", "discussion"], num_s
 # test cases using different filters
 course_find_similar("POL SCI 251",  hrs = True)
 course_find_similar("POL SCI 251", dept=True)
-course_find_similar("POL SCI 251",  dept=True, hrs = True, career_lvl= "Graduate", impacted = "False", num_show=36)
+course_find_similar("POL SCI 251",  dept=True, hrs = True, career_lvl= ["Law"], impacted = "False", num_show=36)
 
 ### Function 2
 def phrase_find_similar(phrase):

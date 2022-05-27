@@ -24,7 +24,7 @@ Final Presentation Date : 6/3/22
 
 ### 3. Dropdown for pre-req class
 
-### 4. Level and type of classes to checkboxes
+### 4. Level and type of classes to checkboxes &#9989;
 
 ### 5. Selecting time interval
 
