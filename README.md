@@ -36,6 +36,8 @@ Final Presentation Date : 6/3/22
 
 ### 9. Update phrase_find_similar
 
+### 10. Grading type checkboxes filter &#9989;
+
 ## Background
 
 ### 1. [Course Recommendation](https://ieeexplore.ieee.org/document/8088011?figureId=fig5#fig5)
