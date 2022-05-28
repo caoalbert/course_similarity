@@ -76,11 +76,18 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
               #         choices = prereqs_courses),
           
           tags$div(align = "left", class = "multicol",
-                   checkboxGroupInput(inputId = "boxtyp", label = "Class Type", 
+                   
+          checkboxGroupInput(inputId = "boxtyp", label = "Class Type", 
                                       choices = c("lecture","discussion","laboratory","seminar","research","tutorial",
                                                   "studio","field","clinic","activity","recitation"))),
+
+          checkboxGroupInput(inputId = "GradeType", label = "Grade Type", 
+
+                             choices = c("LG", "SO", "SU", "PN","NG")
+                        
+                             ),
           
-          checkboxGroupInput(inputId = "leveltyp", label = "Level of Class",
+        checkboxGroupInput(inputId = "leveltyp", label = "Level of Class",
                              choices = c("Undergraduate", "Graduate")),
               
           checkboxInput(inputId = "Impacted", 
@@ -155,13 +162,14 @@ server <- function(input, output) {
   observe({
     a = input$leveltyp
     print(a)
+    
+    
     typ = r_to_py(input$boxtyp)
     career_level = r_to_py(input$leveltyp)
+    Grade_Type =r_to_py(input$GradeType)
     
     
-    
-    
-    similar = course_find_similar(input$number,input$prereq, input$prereq2, input$prereq3, typ, input$Hours,input$Department,career_level,input$Impacted)
+    similar = course_find_similar(input$number,input$prereq, input$prereq2, input$prereq3, typ, Grade_Type,input$Hours,input$Department,career_level,input$Impacted)
 
     newcoursedata = data.frame()
     for (i in 1:length(similar)){
