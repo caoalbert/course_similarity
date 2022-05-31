@@ -32,7 +32,7 @@ bigram = Phraser(phrases)
 
 ### Function 1
 
-def course_find_similar(subj_cat, prereq = None, prereq2 = None, prereq3 = None, class_type = None,grade_type=None, 
+def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selection", prereq3 = "No Selection", class_type = None,grade_type=None, 
   hrs = False, dept = False, career_lvl = None, impacted = "False", num_show = 10):
     # Function inputs a subject area code and catalog number, and optional filters
     # Outputs top (10, or less if length after filters is less than 10) courses and catalog number, along with similarity scores in form of list
@@ -95,20 +95,36 @@ def course_find_similar(subj_cat, prereq = None, prereq2 = None, prereq3 = None,
 
 
       
+      
     # filter by prereq
-    if prereq is not None:
+    if prereq != "No Selection":
        
     
-        if prereq2 is not None and prereq3 is None:
+        if prereq2 != "No Selection" and prereq3 == "No Selection":
+          
           #prereq = "&".join([prereq, prereq2])
           prereq = "(?=.*" + prereq + ")(?=.*" + prereq2 +")"
-        elif prereq2 is not None and prereq3 is not None:
+          
+          
+          
+        elif prereq2 != "No Selection" and prereq3 != "No Selection":
+          
           #prereq = "&".join([prereq, prereq2, prereq3])
           prereq = "(?=.*" + prereq + ")(?=.*" + prereq2 +")" + "(?=.*" + prereq3 +")"
         
         test = ranked_parsed[ranked_parsed['pre_req'].str.contains(prereq, na=False)]
+        
+        
         if not test.empty:
+          
             ranked_parsed = ranked_parsed[ranked_parsed['pre_req'].str.contains(prereq, na=False)]
+            
+            
+            
+            
+            
+            
+            
             
     # filter hours
     if hrs == True:
