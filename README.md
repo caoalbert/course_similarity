@@ -22,7 +22,7 @@ Final Presentation Date : 6/3/22
 
 ### 2. 3 selections for pre-req filter &#9989;
 
-### 3. Dropdown for pre-req class
+### 3. Dropdown for pre-req class &#9989;
 
 ### 4. Level and type of classes to checkboxes &#9989;
 
