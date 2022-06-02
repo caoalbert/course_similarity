@@ -26,7 +26,7 @@ Final Presentation Date : 6/3/22
 
 ### 4. Level and type of classes to checkboxes &#9989;
 
-### 5. Selecting time interval
+### 5. Selecting time interval &#9989;
 
 ### 6. Evaluation of the current search algorithm
 
