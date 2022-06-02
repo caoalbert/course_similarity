@@ -116,16 +116,15 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
                         
                              ),
           
-        checkboxGroupInput(inputId = "leveltyp", label = "Level of Class",
+          checkboxGroupInput(inputId = "leveltyp", label = "Level of Class",
                              choices = c("Undergraduate", "Graduate")),
               
           checkboxInput(inputId = "Impacted", 
                         label = strong("Show non-impacted courses only"), 
                         value = FALSE),
-              
-          checkboxInput(inputId = "Hours", 
-                        label = strong("Show courses with same hours"), 
-                        value = FALSE ),
+        
+          sliderInput(inputId = "Hours", strong("Show courses within the range of hours"), 
+                      value = c(0, 4), min = 0, max = 120),
           
           checkboxInput(inputId = "Department",
                         label = strong("Order by Department Similarity"),
@@ -192,10 +191,10 @@ server <- function(input, output) {
     
     typ = r_to_py(input$boxtyp)
     career_level = r_to_py(input$leveltyp)
-    Grade_Type =r_to_py(input$GradeType)
+    Grade_Type = r_to_py(input$GradeType)
+    Hours = r_to_py(input$Hours)
     
-    
-    similar = course_find_similar(input$number,input$prereq, input$prereq2, input$prereq3, typ, Grade_Type,input$Hours,input$Department,career_level,input$Impacted)
+    similar = course_find_similar(input$number,input$prereq, input$prereq2, input$prereq3, typ, Grade_Type, Hours,input$Department,career_level,input$Impacted)
 
     newcoursedata = data.frame()
     for (i in 1:length(similar)){

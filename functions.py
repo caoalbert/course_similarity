@@ -32,8 +32,8 @@ bigram = Phraser(phrases)
 
 ### Function 1
 
-def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selection", prereq3 = "No Selection", class_type = None,grade_type=None, 
-  hrs = False, dept = False, career_lvl = None, impacted = "False", num_show = 10):
+def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selection", prereq3 = "No Selection", class_type = None, grade_type=None, 
+  hrs = None, dept = False, career_lvl = None, impacted = "False", num_show = 10):
     # Function inputs a subject area code and catalog number, and optional filters
     # Outputs top (10, or less if length after filters is less than 10) courses and catalog number, along with similarity scores in form of list
 
@@ -127,9 +127,10 @@ def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selecti
             
             
     # filter hours
-    if hrs == True:
-        course_hrs = parsed.loc[id, "hours"]
-        ranked_parsed = ranked_parsed[ranked_parsed["hours"] == course_hrs]
+    if hrs is not None:
+      ranked_parsed = ranked_parsed[(ranked_parsed["hours"] >= hrs[0]) & (ranked_parsed["hours"] <= hrs[1])]
+       #course_hrs = parsed.loc[id, "hours"]
+        #ranked_parsed = ranked_parsed[ranked_parsed["hours"] == course_hrs]
 
     # filter career levels
     if career_lvl is not None:
@@ -196,12 +197,12 @@ course_find_similar("POLT SCI 251", class_type= ["lecture", "discussion"], num_s
 course_find_similar("POLT SCI 251", class_type= "lecture", num_show = 5)
 
 # test cases using different filters
-course_find_similar("POL SCI 251",  hrs = True)
+course_find_similar("POL SCI 251")
 course_find_similar("POL SCI 251", dept=True)
-course_find_similar("POL SCI 251",  dept=True, hrs = True, career_lvl= ["Law"], impacted = "False", num_show=36)
+course_find_similar("POL SCI 251",  dept=True, career_lvl= ["Law"], impacted = "False", num_show=36)
 #grade_type=None
-course_find_similar("POL SCI 251",  dept=True, hrs = True, career_lvl= ["Law"], impacted = "False", num_show=36,grade_type="SO")
-course_find_similar("POL SCI 251",  dept=True, hrs = True, career_lvl= ["Law"], impacted = "False", num_show=36,grade_type=["SO","LG"])
+course_find_similar("POL SCI 251",  dept=True, career_lvl= ["Law"], impacted = "False", num_show=36,grade_type="SO")
+course_find_similar("POL SCI 251",  dept=True, career_lvl= ["Law"], impacted = "False", num_show=36,grade_type=["SO","LG"])
 
 ### Function 2
 def phrase_find_similar(phrase, class_type = None,grade_type=None, career_lvl = None, impacted = "False"):
