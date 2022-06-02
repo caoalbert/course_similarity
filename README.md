@@ -34,7 +34,7 @@ Final Presentation Date : 6/3/22
 
 ### 8. [Visualizations](https://stack.dailybruin.com/2017/04/23/department-similarity/)
 
-### 9. Update phrase_find_similar
+### 9. Update phrase_find_similar &#9989;
 
 ### 10. Grading type checkboxes filter &#9989;
 
