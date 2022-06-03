@@ -129,20 +129,26 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
           checkboxInput(inputId = "Department",
                         label = strong("Order by Department Similarity"),
                         value = FALSE),
-              
-          actionButton("update", "Start", 
-                       style="color:#FFFF ; background-color:  #2774AE; border-color:  #2774AE"),
-          br(),
-          # p(h5("Use Course Descrption Phrase Find Similar")),
-          p(h5(" ")),
-          p(h5(" ")),
           
           textInput("phrase",
                     label = "Course Description",
                     value = ""),
+              
+          actionButton("update", "Start", 
+                       style="color:#FFFF ; background-color:  #2774AE; border-color:  #2774AE"),
           
-          actionButton("update2", "Start",style="color:#FFFF ; 
-                           background-color:  #2774AE; border-color:  #2774AE"),
+          
+          br(),
+          # p(h5("Use Course Descrption Phrase Find Similar")),
+          # p(h5(" ")),
+          # p(h5(" ")),
+          # 
+          # textInput("phrase",
+          #           label = "Course Description",
+          #           value = ""),
+          
+          # actionButton("update2", "Start",style="color:#FFFF ; 
+          #                  background-color:  #2774AE; border-color:  #2774AE"),
               
              # plotOutput(outputId = "main_plot", height = "300px")
               
@@ -159,7 +165,7 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
             id = 'dataset',
             tabPanel("Use Course Number Find Similar", DT::dataTableOutput("mytable"),icon = icon("book")),
          
-            tabPanel("Use Course Descrption Phrase Find Similar", DT::dataTableOutput("mytable2"),icon = icon("book")),
+            #tabPanel("Use Course Descrption Phrase Find Similar", DT::dataTableOutput("mytable2"),icon = icon("book")),
             tabPanel("Help",icon = icon("question-circle"),
             h3("Course Not Found"),
             p( "If you’re unable to find a course on the website, please check the complete information of all classes 
@@ -204,30 +210,30 @@ server <- function(input, output) {
     similar_course_data(newcoursedata)
     })
   
-  text_reactive2 <- eventReactive( input$update2,{
-    input$phrase
-  })
+  # text_reactive2 <- eventReactive( input$update2,{
+  #   input$phrase
+  # })
   
   
   
-  similar_course_data2 <- reactiveVal()
-  observe({
-    similar2 = phrase_find_similar(input$phrase)
-    if (length(similar2) == 0) {
-      newcoursedata2 = data.frame(matrix(ncol = 7, nrow = 0))
-      x <- c("course_num", "subj_area_cd", "crs_career_lvl_cd", "crs_act_typ_cd", "crs_grd_typ_cd", "hours", "impacted_crs_fl")
-      colnames(newcoursedata2) <- x
-    }
-
-    else {
-      newcoursedata2 = data.frame()
-      for (i in 1:length(similar2)){
-        similarcourse = courseData[which(courseData["course_num"]==similar2[i]),]
-        newcoursedata2 = rbind(newcoursedata2,similarcourse)
-      }
-    }
-    similar_course_data2(newcoursedata2)
-  })
+  # similar_course_data2 <- reactiveVal()
+  # observe({
+  #   similar2 = phrase_find_similar(input$phrase)
+  #   if (length(similar2) == 0) {
+  #     newcoursedata2 = data.frame(matrix(ncol = 7, nrow = 0))
+  #     x <- c("course_num", "subj_area_cd", "crs_career_lvl_cd", "crs_act_typ_cd", "crs_grd_typ_cd", "hours", "impacted_crs_fl")
+  #     colnames(newcoursedata2) <- x
+  #   }
+  # 
+  #   else {
+  #     newcoursedata2 = data.frame()
+  #     for (i in 1:length(similar2)){
+  #       similarcourse = courseData[which(courseData["course_num"]==similar2[i]),]
+  #       newcoursedata2 = rbind(newcoursedata2,similarcourse)
+  #     }
+  #   }
+  #   similar_course_data2(newcoursedata2)
+  # })
   
   
   output$mytable <- DT::renderDataTable({
@@ -239,14 +245,14 @@ server <- function(input, output) {
                   options = list(lengthMenu = c(3, 5, 10), pageLength = 10))
   })
   
-  output$mytable2 <- DT::renderDataTable({
-    DT::datatable(similar_course_data2(), text_reactive2(),
-                  colnames = c("Class Name"= "course_num", 'Department' = 'subj_area_cd',
-                               'Class Level' = 'crs_career_lvl_cd','Class Type' = 'crs_act_typ_cd',
-                               'Grade Type' = "crs_grd_typ_cd",
-                               'Hours' = 'hours','Impacted' = 'impacted_crs_fl'), 
-                  options = list(lengthMenu = c(3, 5, 10), pageLength = 10))
-  })
+  # output$mytable2 <- DT::renderDataTable({
+  #   DT::datatable(similar_course_data2(), text_reactive2(),
+  #                 colnames = c("Class Name"= "course_num", 'Department' = 'subj_area_cd',
+  #                              'Class Level' = 'crs_career_lvl_cd','Class Type' = 'crs_act_typ_cd',
+  #                              'Grade Type' = "crs_grd_typ_cd",
+  #                              'Hours' = 'hours','Impacted' = 'impacted_crs_fl'), 
+  #                 options = list(lengthMenu = c(3, 5, 10), pageLength = 10))
+  # })
   
 
 }
