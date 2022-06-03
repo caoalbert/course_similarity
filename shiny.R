@@ -109,7 +109,7 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
           #                             choices = c("lecture","discussion","laboratory","seminar","research","tutorial", 
           #                                         "studio","field","clinic","activity","recitation"))),
           
-          selectInput(inputId = "boxtyp", label = "Choose one or more:", choices = c("lecture","discussion","laboratory","seminar","research","tutorial", 
+          selectInput(inputId = "boxtyp", label = "Choose One or More Class Types:", choices = c("lecture","discussion","laboratory","seminar","research","tutorial", 
                                                                                      "studio","field","clinic","activity","recitation"), multiple = TRUE),
           
           
