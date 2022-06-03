@@ -186,7 +186,7 @@ def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selecti
         descriptions = df['clean']
         boolean_findings = descriptions.str.contains('.*'.join(phrases), flags = re.IGNORECASE)
         sim_courses_by_phrase = df[boolean_findings]['course_num'].tolist()
-        print(sim_courses_by_phrase)
+        #print(sim_courses_by_phrase)
         
         if len(sim_courses) == 0:
           sim_courses = sim_courses_by_phrase[:num_show]

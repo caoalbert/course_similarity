@@ -163,30 +163,37 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
               # )
           ),
         
-        mainPanel(
-          tabsetPanel(
-            id = 'dataset',
-            tabPanel("Use Course Number Find Similar", DT::dataTableOutput("mytable"),icon = icon("book")),
-         
-            #tabPanel("Use Course Descrption Phrase Find Similar", DT::dataTableOutput("mytable2"),icon = icon("book")),
-            tabPanel("Help",icon = icon("question-circle"),
-            h3("Course Not Found"),
-            p( "If you’re unable to find a course on the website, please check the complete information of all classes 
+          mainPanel(
+            tabsetPanel(
+              id = 'dataset',
+              tabPanel("Use Course Number Find Similar", DT::dataTableOutput("mytable"),icon = icon("book")),
+              
+              #tabPanel("Use Course Descrption Phrase Find Similar", DT::dataTableOutput("mytable2"),icon = icon("book")),
+              tabPanel("Help",icon = icon("question-circle"),
+                       h3("Course Not Found"),
+                       p( "If you’re unable to find a course on the website, please check the complete information of all classes 
                at UCLA:",tags$a(href = "https://registrar.ucla.edu/academics/course-descriptions",
-                       "https://registrar.ucla.edu/academics/course-descriptions")),
-            br(),
-            h4("Contact Us"),
-            p("Phone: (310)862-9183"),
-            p("Email: feedbackStats141XP@gmail.com"),
-            br(),
-            p( h4("More Information about the Website"),tags$a(href = "https://drive.google.com/drive/folders/1UC9zEDsMvI-tS81ynulciJrDxmL306r0?usp=sharing",
-                                                              "https://drive.google.com/drive/folders/1UC9zEDsMvI-tS81ynulciJrDxmL306r0?usp=sharing")),
-               tags$a(href = "https://github.com/caoalbert/course_similarity",
-                  "https://github.com/caoalbert/course_similarity")))
-
-        )
-    )
-)
+                                "https://registrar.ucla.edu/academics/course-descriptions")),
+                       br(),
+                       h4("Contact Us"),
+                       p("Phone: (310)862-9183"),
+                       p("Email: feedbackStats141XP@gmail.com"),
+                       br(),
+                       p( h4("More Information about the Website"),
+                          tags$a(href = "https://drive.google.com/drive/folders/1UC9zEDsMvI-tS81ynulciJrDxmL306r0?usp=sharing",
+                                 "https://drive.google.com/drive/folders/1UC9zEDsMvI-tS81ynulciJrDxmL306r0?usp=sharing")),
+                       tags$a(href = "https://github.com/caoalbert/course_similarity",
+                              "https://github.com/caoalbert/course_similarity"),
+                       br(),
+                       br(),
+                       h4("Tutorial on how to use the app"),
+                       p( "Link to video tutorial here:",tags$a(href = "https://youtu.be/hUY8dDVd9g8",
+                                                                "https://youtu.be/hUY8dDVd9g8"))),
+                       br())
+            
+          )
+      )
+  )
  
 
 
