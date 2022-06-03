@@ -33,6 +33,6 @@ course_find_similar("POL SCI 0251", class_type= "lecture",career_lvl= "Undergrad
 course_find_similar("POL SCI 0251", career_lvl= "Undergraduate", impacted = "True")
 
 # test case using phrase function
-phrase_find_similar("epidemiology")
+#phrase_find_similar("epidemiology")
 
 setwd( "/Users/huqinhan/Desktop/shiny")

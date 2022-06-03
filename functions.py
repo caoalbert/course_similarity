@@ -33,7 +33,8 @@ bigram = Phraser(phrases)
 ### Function 1
 
 def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selection", prereq3 = "No Selection", class_type = None, grade_type=None, 
-  hrs = None, dept = False, career_lvl = None, impacted = "False", num_show = 10):
+  hrs = None, dept = False, career_lvl = None, impacted = "False", phrase = "", num_show = 10):
+    df = parsed_coursenum
     # Function inputs a subject area code and catalog number, and optional filters
     # Outputs top (10, or less if length after filters is less than 10) courses and catalog number, along with similarity scores in form of list
 
@@ -65,8 +66,6 @@ def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selecti
     ranked_parsed = parsed.reindex(rank)
     ranked_parsed["Similarity Score"] = scores
     ranked_parsed = ranked_parsed.reset_index(drop = True)
-    
-    
 
     # filter class type
     if class_type is not None:
@@ -118,12 +117,6 @@ def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selecti
         if not test.empty:
           
             ranked_parsed = ranked_parsed[ranked_parsed['pre_req'].str.contains(prereq, na=False)]
-            
-            
-            
-            
-            
-            
             
             
     # filter hours
@@ -184,8 +177,30 @@ def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selecti
         else:
             for i in range(num_show):
                 sim_courses.append(ranked_parsed.loc[i, "subj_cat"])
-
-
+                
+    if phrase != "":
+        phrases = phrase.split(sep = ", ")
+        for i in range(len(phrases)):
+          phrases[i] = phrases[i].lower()
+        
+        descriptions = df['clean']
+        boolean_findings = descriptions.str.contains('.*'.join(phrases), flags = re.IGNORECASE)
+        sim_courses_by_phrase = df[boolean_findings]['course_num'].tolist()
+        print(sim_courses_by_phrase)
+        
+        if len(sim_courses) == 0:
+          sim_courses = sim_courses_by_phrase[:num_show]
+        
+        elif len(sim_courses_by_phrase) > 0 and len(sim_courses) > 0:
+          try:
+              sim_courses = list(set(sim_courses).intersection(sim_courses_by_phrase))[:num_show]
+          except:
+              sim_courses = list(set(sim_courses).intersection(sim_courses_by_phrase))
+              
+        elif len(sim_courses_by_phrase) == 0:
+          sim_courses = []
+          
+          
     return sim_courses
 
 # test case using only num_show filter (all gives same results)
@@ -205,67 +220,67 @@ course_find_similar("POL SCI 251",  dept=True, career_lvl= ["Law"], impacted = "
 course_find_similar("POL SCI 251",  dept=True, career_lvl= ["Law"], impacted = "False", num_show=36,grade_type=["SO","LG"])
 
 ### Function 2
-def phrase_find_similar(phrase, class_type = None,grade_type=None, career_lvl = None, impacted = "False"):
-
-    df = parsed_coursenum
-    # filter class type
-    if class_type is not None:
-
-        if isinstance(class_type, str):
-
-            df = df[df[class_type] == 1]
-
-        elif len(class_type) > 1:
-            class_type = list(class_type)
-            temp = df[class_type].sum(axis=1)
-            df = df[temp >= 1]
-
-    # filter by grade  type
-    if grade_type is not None:
-
-        if isinstance(grade_type, str):
-            df = df[df["crs_grd_typ_cd"] == grade_type]
-
-        elif len(grade_type) > 1:
-            grade_type = list(grade_type)
-            df = df[df["crs_grd_typ_cd"].isin(grade_type)]
-
-    if career_lvl is not None:
-        # create dictionary to map user input to career level code
-        career_dic = {"Undergraduate" : "U",
-               "Graduate" : "G",
-               "Law" : "L",
-               "Medicine" : "M",
-               "Dentist": "D"}
-        if isinstance(career_lvl, str):
-          df = df[df["crs_career_lvl_cd"] == career_dic[career_lvl]]
-        elif len(career_lvl) > 1:
-          newlist = []
-          for i in career_lvl:
-            newlist.append(career_dic[i])
-          df = df[df["crs_career_lvl_cd"].isin(newlist)]
-
-    # filter out impacted courses
-    if impacted == True:
-        df = df[df["impacted_crs_fl"] == "N"]
-
-    #split keywords using comma and covert to lower case
-    phrases = phrase.split(sep = ", ")
-    for i in range(len(phrases)):
-        phrases[i] = phrases[i].lower()
-
-    descriptions = df['clean']
-    boolean_findings = descriptions.str.contains('.*'.join(phrases), flags = re.IGNORECASE)
-    sim_courses = df[boolean_findings]['course_num'].tolist()
-
-    
-                          
-    return sim_courses
+# def phrase_find_similar(phrase, class_type = None,grade_type=None, career_lvl = None, impacted = "False"):
+# 
+#     df = parsed_coursenum
+#     # filter class type
+#     if class_type is not None:
+# 
+#         if isinstance(class_type, str):
+# 
+#             df = df[df[class_type] == 1]
+# 
+#         elif len(class_type) > 1:
+#             class_type = list(class_type)
+#             temp = df[class_type].sum(axis=1)
+#             df = df[temp >= 1]
+# 
+#     # filter by grade  type
+#     if grade_type is not None:
+# 
+#         if isinstance(grade_type, str):
+#             df = df[df["crs_grd_typ_cd"] == grade_type]
+# 
+#         elif len(grade_type) > 1:
+#             grade_type = list(grade_type)
+#             df = df[df["crs_grd_typ_cd"].isin(grade_type)]
+# 
+#     if career_lvl is not None:
+#         # create dictionary to map user input to career level code
+#         career_dic = {"Undergraduate" : "U",
+#                "Graduate" : "G",
+#                "Law" : "L",
+#                "Medicine" : "M",
+#                "Dentist": "D"}
+#         if isinstance(career_lvl, str):
+#           df = df[df["crs_career_lvl_cd"] == career_dic[career_lvl]]
+#         elif len(career_lvl) > 1:
+#           newlist = []
+#           for i in career_lvl:
+#             newlist.append(career_dic[i])
+#           df = df[df["crs_career_lvl_cd"].isin(newlist)]
+# 
+#     # filter out impacted courses
+#     if impacted == True:
+#         df = df[df["impacted_crs_fl"] == "N"]
+# 
+#     #split keywords using comma and covert to lower case
+#     phrases = phrase.split(sep = ", ")
+#     for i in range(len(phrases)):
+#         phrases[i] = phrases[i].lower()
+# 
+#     descriptions = df['clean']
+#     boolean_findings = descriptions.str.contains('.*'.join(phrases), flags = re.IGNORECASE)
+#     sim_courses = df[boolean_findings]['course_num'].tolist()
+# 
+#     
+#                           
+#     return sim_courses
 
 # test case
-phrase_find_similar("linear model", class_type="lecture", career_lvl="Graduate")
-phrase_find_similar("history, europe, economic", class_type="lecture", career_lvl="Undergraduate")
-phrase_find_similar("machine learning", career_lvl="Undergraduate")
+# phrase_find_similar("linear model", class_type="lecture", career_lvl="Graduate")
+# phrase_find_similar("history, europe, economic", class_type="lecture", career_lvl="Undergraduate")
+# phrase_find_similar("machine learning", career_lvl="Undergraduate")
 
 
 

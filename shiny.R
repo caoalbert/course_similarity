@@ -33,7 +33,6 @@ source_python("functions.py")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
   tags$head(tags$style(HTML("
                                  .multicol { 
                                    height: 150px;
@@ -104,12 +103,16 @@ p(a(href = "https://registrar.ucla.edu/academics/course-descriptions", "Click he
           
           
           
-          tags$div(align = "left", class = "multicol",
-                   
-          checkboxGroupInput(inputId = "boxtyp", label = "Class Type", 
-                                      choices = c("lecture","discussion","laboratory","seminar","research","tutorial",
-                                                  "studio","field","clinic","activity","recitation"))),
-
+          #tags$div(align = "left", class = "multicol",
+        
+          # checkboxGroupInput(inputId = "boxtyp", label = "Class Type",
+          #                             choices = c("lecture","discussion","laboratory","seminar","research","tutorial", 
+          #                                         "studio","field","clinic","activity","recitation"))),
+          
+          selectInput(inputId = "boxtyp", label = "Choose one or more:", choices = c("lecture","discussion","laboratory","seminar","research","tutorial", 
+                                                                                     "studio","field","clinic","activity","recitation"), multiple = TRUE),
+          
+          
           checkboxGroupInput(inputId = "GradeType", label = "Grade Type", 
 
                              choices = c("LG", "SO", "SU", "PN","NG")
@@ -199,15 +202,23 @@ server <- function(input, output) {
     career_level = r_to_py(input$leveltyp)
     Grade_Type = r_to_py(input$GradeType)
     Hours = r_to_py(input$Hours)
-    
-    similar = course_find_similar(input$number,input$prereq, input$prereq2, input$prereq3, typ, Grade_Type, Hours,input$Department,career_level,input$Impacted)
 
-    newcoursedata = data.frame()
-    for (i in 1:length(similar)){
-      similarcourse = courseData[which(courseData["course_num"]==similar[i]),]
-      newcoursedata = rbind(newcoursedata,similarcourse)
+    similar = course_find_similar(input$number,input$prereq, input$prereq2, input$prereq3, typ, Grade_Type, Hours,input$Department,career_level,input$Impacted,input$phrase)
+
+    if (length(similar) == 0) {
+      newcoursedata = data.frame(matrix(ncol = 7, nrow = 0))
+      x <- c("course_num", "subj_area_cd", "crs_career_lvl_cd", "crs_act_typ_cd", "crs_grd_typ_cd", "hours", "impacted_crs_fl")
+      colnames(newcoursedata) <- x
+    }
+    else {
+      newcoursedata = data.frame()
+      for (i in 1:length(similar)){
+        similarcourse = courseData[which(courseData["course_num"]==similar[i]),]
+        newcoursedata = rbind(newcoursedata,similarcourse)
+      }
     }
     similar_course_data(newcoursedata)
+    
     })
   
   # text_reactive2 <- eventReactive( input$update2,{
