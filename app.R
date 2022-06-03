@@ -277,6 +277,7 @@ server <- function(input, output) {
 
 # Run the application 
 courseData <- read.csv("parsed_coursenum.csv")
+#courseData <- read.csv("https://raw.githubusercontent.com/caoalbert/course_similarity/main/parsed_coursenum.csv?token=GHSAT0AAAAAABUPGGVRKXS5D5SEXTAJTBNWYU2MS4A")
 courseData <- courseData %>% select(course_num,subj_area_cd,crs_career_lvl_cd,crs_act_typ_cd,
                                     crs_grd_typ_cd,hours,impacted_crs_fl)
 shinyApp(ui = ui, server = server)

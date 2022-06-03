@@ -5,7 +5,7 @@ account: adhvaith-vijay
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 6427582
-bundleId: 5975827
+bundleId: 5975953
 url: https://adhvaith-vijay.shinyapps.io/course_similarity/
-when: 1654281943.13553
-lastSyncTime: 1654281943.13555
+when: 1654285227.31106
+lastSyncTime: 1654285227.31107

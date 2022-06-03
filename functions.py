@@ -177,6 +177,9 @@ def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selecti
         else:
             for i in range(num_show):
                 sim_courses.append(ranked_parsed.loc[i, "subj_cat"])
+                
+    if sim_courses == ['HIST 128C', 'SOCIOL 173', 'POL SCI 253', 'HIST 235D', 'URBN PL 206A', 'HIST 105A', 'PORTGSE 130A', 'POL SCI 230', 'HIST 105B', 'PUB AFF 70']:
+        sim_courses = []
 
     if phrase != "":
         phrases = phrase.split(sep = ", ")
@@ -191,8 +194,8 @@ def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selecti
         # print("TEST")
         # print(sim_courses)
         
-        if sim_courses == ['HIST 128C', 'SOCIOL 173', 'POL SCI 253', 'HIST 235D', 'URBN PL 206A', 'HIST 105A', 'PORTGSE 130A', 'POL SCI 230', 'HIST 105B', 'PUB AFF 70']:
-          sim_courses = []
+        # if sim_courses == ['HIST 128C', 'SOCIOL 173', 'POL SCI 253', 'HIST 235D', 'URBN PL 206A', 'HIST 105A', 'PORTGSE 130A', 'POL SCI 230', 'HIST 105B', 'PUB AFF 70']:
+        #   sim_courses = []
       
         if len(sim_courses) == 0:
           sim_courses = sim_courses_by_phrase[:num_show]
