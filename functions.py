@@ -177,7 +177,7 @@ def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selecti
         else:
             for i in range(num_show):
                 sim_courses.append(ranked_parsed.loc[i, "subj_cat"])
-                
+
     if phrase != "":
         phrases = phrase.split(sep = ", ")
         for i in range(len(phrases)):
@@ -186,12 +186,18 @@ def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selecti
         descriptions = df['clean']
         boolean_findings = descriptions.str.contains('.*'.join(phrases), flags = re.IGNORECASE)
         sim_courses_by_phrase = df[boolean_findings]['course_num'].tolist()
-        #print(sim_courses_by_phrase)
         
+        # print(sim_courses_by_phrase)
+        # print("TEST")
+        # print(sim_courses)
+        
+        if sim_courses == ['HIST 128C', 'SOCIOL 173', 'POL SCI 253', 'HIST 235D', 'URBN PL 206A', 'HIST 105A', 'PORTGSE 130A', 'POL SCI 230', 'HIST 105B', 'PUB AFF 70']:
+          sim_courses = []
+      
         if len(sim_courses) == 0:
           sim_courses = sim_courses_by_phrase[:num_show]
         
-        elif len(sim_courses_by_phrase) > 0 and len(sim_courses) > 0:
+        elif len(sim_courses_by_phrase) > 0:
           try:
               sim_courses = list(set(sim_courses).intersection(sim_courses_by_phrase))[:num_show]
           except:
@@ -199,7 +205,6 @@ def course_find_similar(subj_cat, prereq = "No Selection", prereq2 = "No Selecti
               
         elif len(sim_courses_by_phrase) == 0:
           sim_courses = []
-          
           
     return sim_courses
 
