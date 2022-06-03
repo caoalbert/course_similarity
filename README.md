@@ -16,7 +16,7 @@ d) Incorporate a function to search based on fulfilling certain major requiremen
 ## Meeting on 5/23
 
 [division sheet](https://docs.google.com/spreadsheets/d/1vzHcyOv2tSic3bjIEvpc66dA_qqefVIqt7mDH3EKP0k/edit#gid=0)
-Final Presentation Date : 6/3/22 [Zoom Link](https://ucla.zoom.us/j/93562788865?pwd=OWI5OTd3NHVzdEQ3a2RzOU1NcFBJUT09)
+Final Presentation Date : 6/3/22 1pm [Zoom Link](https://ucla.zoom.us/j/93562788865?pwd=OWI5OTd3NHVzdEQ3a2RzOU1NcFBJUT09)
 
 ### 1. Combine the two functions into one (one start button, one table output)
 
